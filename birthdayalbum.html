@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+:root{
+--pink:#ff85b3;
+--lavender:#c084fc;
+--sky:#7dd3fc;
+--peach:#ffb997;
+--mint:#86efac;
+--white:#fff9fb;
+--soft:#fdf2f8;
+--gold:#fbbf24;
+--text:#4a2060;
+--shadow:rgba(192,132,252,0.35)
+}
+
+html,body{
+width:100%;height:100%;
+overflow:hidden;
+background:var(--soft);
+font-family:'Quicksand',sans-serif;
+color:var(--text)
+}
+
+body{
+background:linear-gradient(135deg,#ffe4f0 0%,#f3e8ff 35%,#e0f2fe 70%,#fef9c3 100%);
+position:relative
+}
+
+.bg-blobs{
+position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden
+}
+
+.blob{
+position:absolute;border-radius:50%;filter:blur(60px);opacity:.45;animation:blobFloat 8s ease-in-out infinite
+}
+
+.blob1{width:220px;height:220px;background:radial-gradient(circle,#ffb3d1,#f9a8d4);top:-60px;left:-40px;animation-delay:0s}
+.blob2{width:180px;height:180px;background:radial-gradient(circle,#d8b4fe,#c084fc);top:20px;right:-30px;animation-delay:2s}
+.blob3{width:160px;height:160px;background:radial-gradient(circle,#bae6fd,#7dd3fc);bottom:-40px;left:20%;animation-delay:4s}
+.blob4{width:140px;height:140px;background:radial-gradient(circle,#bbf7d0,#86efac);bottom:-20px;right:15%;animation-delay:1s}
+
+@keyframes blobFloat{
+0%,100%{transform:translateY(0) scale(1)}
+50%{transform:translateY(-18px) scale(1.06)}
+}
+
+.particles{position:fixed;inset:0;pointer-events:none;z-index:1}
+
+.particle{
+position:absolute;width:7px;height:7px;border-radius:50%;opacity:0;
+animation:particleFall linear infinite
+}
+
+@keyframes particleFall{
+0%{transform:translateY(-10px) rotate(0deg);opacity:1}
+100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+
+.screen{
+position:fixed;inset:0;z-index:10;display:flex;
+align-items:center;justify-content:center;
+opacity:0;pointer-events:none;transition:opacity .6s ease
+}
+
+.screen.active{opacity:1;pointer-events:all}
+
+#splashScreen{
+flex-direction:column;gap:10px;text-align:center;
+background:transparent
+}
+
+.splash-emoji{
+font-size:clamp(3rem,10vw,5rem);
+animation:bounceIn 1s cubic-bezier(.36,.07,.19,.97) both,emojiPulse 2s ease-in-out 1s infinite
+}
+
+@keyframes bounceIn{
+0%{transform:scale(0) rotate(-15deg);opacity:0}
+60%{transform:scale(1.2) rotate(5deg)}
+100%{transform:scale(1) rotate(0deg);opacity:1}
+}
+
+@keyframes emojiPulse{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.12)}
+}
+
+.splash-title{
+font-family:'Playfair Display',serif;
+font-size:clamp(1.8rem,7vw,3.2rem);
+font-weight:700;
+background:linear-gradient(135deg,var(--pink),var(--lavender),var(--sky));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+animation:slideUp .9s ease .3s both;
+text-shadow:none;
+line-height:1.15
+}
+
+.splash-sub{
+font-size:clamp(.85rem,2.8vw,1.1rem);
+color:var(--lavender);
+font-weight:600;
+animation:slideUp .9s ease .5s both;
+letter-spacing:.05em
+}
+
+.splash-name{
+font-family:'Playfair Display',serif;
+font-style:italic;
+font-size:clamp(1.4rem,5vw,2.2rem);
+color:var(--pink);
+animation:slideUp .9s ease .7s both;
+text-shadow:0 2px 12px rgba(255,133,179,.45)
+}
+
+@keyframes slideUp{
+from{transform:translateY(30px);opacity:0}
+to{transform:translateY(0);opacity:1}
+}
+
+.enter-btn{
+margin-top:14px;
+padding:12px 40px;
+border:none;border-radius:50px;
+background:linear-gradient(135deg,var(--pink),var(--lavender));
+color:#fff;
+font-family:'Quicksand',sans-serif;
+font-size:clamp(.9rem,2.8vw,1.1rem);
+font-weight:700;
+cursor:pointer;
+box-shadow:0 6px 24px var(--shadow);
+animation:slideUp .9s ease .9s both, btnGlow 2.5s ease-in-out 2s infinite;
+transition:transform .2s,box-shadow .2s;
+letter-spacing:.04em
+}
+
+.enter-btn:active{transform:scale(.95)}
+
+@keyframes btnGlow{
+0%,100%{box-shadow:0 6px 24px var(--shadow)}
+50%{box-shadow:0 8px 36px rgba(192,132,252,.65)}
+}
+
+#albumScreen{
+flex-direction:column;gap:0;
+background:transparent
+}
+
+.album-header{
+width:100%;
+display:flex;align-items:center;justify-content:space-between;
+padding:8px 16px 4px;
+flex-shrink:0;
+position:relative;z-index:5
+}
+
+.album-title-area{display:flex;flex-direction:column;align-items:flex-start}
+
+.album-label{
+font-size:clamp(.6rem,2vw,.75rem);
+color:var(--lavender);font-weight:600;
+text-transform:uppercase;letter-spacing:.12em
+}
+
+.album-name-text{
+font-family:'Playfair Display',serif;
+font-size:clamp(1.1rem,4vw,1.6rem);
+font-weight:700;
+background:linear-gradient(135deg,var(--pink),var(--lavender));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
+}
+
+.album-controls{display:flex;align-items:center;gap:10px}
+
+.counter-badge{
+background:linear-gradient(135deg,var(--pink),var(--lavender));
+color:#fff;border-radius:20px;
+padding:4px 12px;
+font-size:clamp(.65rem,2vw,.8rem);
+font-weight:700;
+box-shadow:0 3px 10px var(--shadow)
+}
+
+.music-btn{
+width:34px;height:34px;border-radius:50%;border:none;
+background:linear-gradient(135deg,var(--peach),var(--gold));
+color:#fff;font-size:16px;cursor:pointer;
+box-shadow:0 3px 10px rgba(251,191,36,.4);
+display:flex;align-items:center;justify-content:center;
+transition:transform .2s;flex-shrink:0
+}
+
+.music-btn:active{transform:scale(.9)}
+
+.carousel-wrapper{
+flex:1;width:100%;
+display:flex;align-items:center;justify-content:center;
+position:relative;overflow:hidden;
+padding:6px 0
+}
+
+.carousel-track{
+display:flex;align-items:center;justify-content:center;
+width:100%;height:100%;
+position:relative
+}
+
+.photo-card{
+position:absolute;
+width:clamp(140px,32vw,200px);
+height:clamp(105px,24vw,150px);
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 8px 32px rgba(192,132,252,.3);
+transition:all .5s cubic-bezier(.34,1.56,.64,1);
+cursor:pointer;
+transform-style:preserve-3d;
+backface-visibility:hidden
+}
+
+.photo-card img{
+width:100%;height:100%;
+object-fit:cover;
+display:block;
+transition:transform .4s ease
+}
+
+.photo-card .card-overlay{
+position:absolute;inset:0;
+background:linear-gradient(180deg,transparent 50%,rgba(74,32,96,.55) 100%);
+opacity:0;transition:opacity .3s
+}
+
+.photo-card .card-num{
+position:absolute;bottom:7px;right:9px;
+font-size:.65rem;font-weight:700;
+color:#fff;opacity:0;transition:opacity .3s;
+text-shadow:0 1px 4px rgba(0,0,0,.4)
+}
+
+.photo-card.center{
+transform:translateX(0) scale(1.08);
+box-shadow:0 12px 40px var(--shadow);
+z-index:4
+}
+
+.photo-card.left1{
+transform:translateX(-110%) scale(.88) rotateY(8deg);
+z-index:3;opacity:.9
+}
+
+.photo-card.left2{
+transform:translateX(-200%) scale(.75) rotateY(14deg);
+z-index:2;opacity:.65
+}
+
+.photo-card.right1{
+transform:translateX(110%) scale(.88) rotateY(-8deg);
+z-index:3;opacity:.9
+}
+
+.photo-card.right2{
+transform:translateX(200%) scale(.75) rotateY(-14deg);
+z-index:2;opacity:.65
+}
+
+.photo-card.hidden-left{
+transform:translateX(-300%) scale(.6);
+opacity:0;pointer-events:none;z-index:1
+}
+
+.photo-card.hidden-right{
+transform:translateX(300%) scale(.6);
+opacity:0;pointer-events:none;z-index:1
+}
+
+.photo-card.center .card-overlay,
+.photo-card.center .card-num{opacity:1}
+
+.photo-card.center img{transform:scale(1.04)}
+
+.nav-area{
+width:100%;
+display:flex;align-items:center;justify-content:center;
+gap:16px;
+padding:6px 0 10px;
+flex-shrink:0
+}
+
+.nav-btn{
+width:42px;height:42px;border-radius:50%;border:none;
+background:linear-gradient(135deg,var(--pink),var(--lavender));
+color:#fff;font-size:18px;
+cursor:pointer;
+box-shadow:0 4px 16px var(--shadow);
+display:flex;align-items:center;justify-content:center;
+transition:transform .2s,box-shadow .2s;
+flex-shrink:0
+}
+
+.nav-btn:active{transform:scale(.88);box-shadow:0 2px 8px var(--shadow)}
+
+.dots-row{
+display:flex;align-items:center;gap:6px;flex-wrap:nowrap;
+max-width:200px;overflow:hidden
+}
+
+.dot{
+width:6px;height:6px;border-radius:50%;
+background:rgba(192,132,252,.35);
+transition:all .3s ease;flex-shrink:0
+}
+
+.dot.active{
+background:linear-gradient(135deg,var(--pink),var(--lavender));
+width:20px;border-radius:4px
+}
+
+#lightboxScreen{
+background:rgba(30,10,50,.88);
+backdrop-filter:blur(12px);
+flex-direction:column;
+gap:12px
+}
+
+.lightbox-img-wrap{
+width:90vw;
+height:calc(100vh - 100px);
+max-width:540px;
+display:flex;align-items:center;justify-content:center;
+position:relative
+}
+
+.lightbox-img-wrap img{
+max-width:100%;max-height:100%;
+border-radius:20px;
+box-shadow:0 16px 60px rgba(192,132,252,.5);
+animation:lbIn .4s cubic-bezier(.34,1.56,.64,1)
+}
+
+@keyframes lbIn{
+from{transform:scale(.7);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+
+.lightbox-caption{
+color:rgba(255,255,255,.85);
+font-size:clamp(.8rem,2.5vw,.95rem);
+font-weight:600;
+text-align:center;letter-spacing:.04em
+}
+
+.close-lb{
+position:absolute;top:12px;right:14px;z-index:20;
+width:36px;height:36px;border-radius:50%;border:none;
+background:rgba(255,255,255,.18);
+color:#fff;font-size:18px;cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+transition:background .2s
+}
+
+.close-lb:active{background:rgba(255,255,255,.35)}
+
+.floating-decor{
+position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden
+}
+
+.balloon{
+position:absolute;font-size:clamp(1.2rem,4vw,2rem);
+animation:balloonRise linear infinite;
+opacity:.75
+}
+
+@keyframes balloonRise{
+0%{transform:translateY(100vh) rotate(-8deg);opacity:.8}
+50%{transform:translateY(40vh) rotate(8deg);opacity:.9}
+100%{transform:translateY(-60px) rotate(-5deg);opacity:0}
+}
+
+.sparkle{
+position:absolute;
+width:5px;height:5px;
+border-radius:50%;
+background:var(--gold);
+animation:sparklePop ease-in-out infinite
+}
+
+@keyframes sparklePop{
+0%,100%{transform:scale(0);opacity:0}
+50%{transform:scale(1.5);opacity:1}
+}
+
+.ribbon{
+position:fixed;
+top:0;left:0;right:0;
+height:5px;
+background:linear-gradient(90deg,var(--pink),var(--lavender),var(--sky),var(--mint),var(--peach),var(--pink));
+background-size:200% 100%;
+animation:ribbonShift 3s linear infinite;
+z-index:100
+}
+
+@keyframes ribbonShift{
+0%{background-position:0% 50%}
+100%{background-position:200% 50%}
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+.photo-card{
+width:clamp(120px,28vw,170px);
+height:clamp(90px,21vw,128px)
+}
+.album-header{padding:5px 12px 2px}
+.nav-area{padding:4px 0 6px}
+}
+</style>
+</head>
+<body>
+
+<div class="ribbon"></div>
+
+<div class="bg-blobs">
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="blob blob4"></div>
+</div>
+
+<div class="particles" id="particles"></div>
+
+<div class="floating-decor" id="floatingDecor"></div>
+
+<div class="screen active" id="splashScreen">
+<div class="splash-emoji">🎂</div>
+<div class="splash-title">Happy Birthday!</div>
+<div class="splash-sub">A little album made with love</div>
+<div class="splash-name">For You ✨</div>
+<button class="enter-btn" onclick="openAlbum()">Open Your Gift 🎁</button>
+</div>
+
+<div class="screen" id="albumScreen">
+<div class="album-header">
+<div class="album-title-area">
+<span class="album-label">Birthday Album</span>
+<span class="album-name-text">Memories 🌸</span>
+</div>
+<div class="album-controls">
+<span class="counter-badge" id="counterBadge">1 / 20</span>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+</div>
+</div>
+
+<div class="carousel-wrapper">
+<div class="carousel-track" id="carouselTrack"></div>
+</div>
+
+<div class="nav-area">
+<button class="nav-btn" onclick="prevSlide()">‹</button>
+<div class="dots-row" id="dotsRow"></div>
+<button class="nav-btn" onclick="nextSlide()">›</button>
+</div>
+</div>
+
+<div class="screen" id="lightboxScreen">
+<button class="close-lb" onclick="closeLightbox()">✕</button>
+<div class="lightbox-img-wrap">
+<img id="lightboxImg" src="" alt="Photo">
+</div>
+<div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
+<audio id="bgMusic" loop>
+<source src="your-music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const photos = [
+{src:"",caption:"Memory 1 💕"},
+{src:"",caption:"Memory 2 🌸"},
+{src:"",caption:"Memory 3 ✨"},
+{src:"",caption:"Memory 4 🌟"},
+{src:"",caption:"Memory 5 💫"},
+{src:"",caption:"Memory 6 🎀"},
+{src:"",caption:"Memory 7 🌷"},
+{src:"",caption:"Memory 8 🍭"},
+{src:"",caption:"Memory 9 🦋"},
+{src:"",caption:"Memory 10 🌈"},
+{src:"",caption:"Memory 11 💖"},
+{src:"",caption:"Memory 12 🌺"},
+{src:"",caption:"Memory 13 🎠"},
+{src:"",caption:"Memory 14 🍬"},
+{src:"",caption:"Memory 15 🌙"},
+{src:"",caption:"Memory 16 ⭐"},
+{src:"",caption:"Memory 17 🎶"},
+{src:"",caption:"Memory 18 🌻"},
+{src:"",caption:"Memory 19 🎈"},
+{src:"",caption:"Memory 20 🎂"}
+];
+
+let current = 0;
+let musicPlaying = false;
+let touchStartX = 0;
+let touchEndX = 0;
+
+const particleColors = ["#ff85b3","#c084fc","#7dd3fc","#fbbf24","#86efac","#ffb997"];
+
+function createParticles() {
+const container = document.getElementById("particles");
+for (let i = 0; i < 28; i++) {
+const p = document.createElement("div");
+p.classList.add("particle");
+p.style.left = Math.random() * 100 + "%";
+p.style.top = Math.random() * 100 + "%";
+p.style.background = particleColors[Math.floor(Math.random() * particleColors.length)];
+p.style.width = (4 + Math.random() * 6) + "px";
+p.style.height = p.style.width;
+p.style.animationDuration = (6 + Math.random() * 8) + "s";
+p.style.animationDelay = (Math.random() * 8) + "s";
+container.appendChild(p);
+}
+}
+
+function createFloatingDecor() {
+const container = document.getElementById("floatingDecor");
+const balloons = ["🎈","🎀","🌸","⭐","💕","🦋","🌷","✨"];
+for (let i = 0; i < 10; i++) {
+const b = document.createElement("div");
+b.classList.add("balloon");
+b.textContent = balloons[Math.floor(Math.random() * balloons.length)];
+b.style.left = (5 + Math.random() * 90) + "%";
+b.style.animationDuration = (10 + Math.random() * 12) + "s";
+b.style.animationDelay = (Math.random() * 15) + "s";
+container.appendChild(b);
+}
+for (let i = 0; i < 18; i++) {
+const s = document.createElement("div");
+s.classList.add("sparkle");
+s.style.left = (Math.random() * 100) + "%";
+s.style.top = (Math.random() * 100) + "%";
+s.style.background = particleColors[Math.floor(Math.random() * particleColors.length)];
+s.style.animationDuration = (1.5 + Math.random() * 2.5) + "s";
+s.style.animationDelay = (Math.random() * 3) + "s";
+container.appendChild(s);
+}
+}
+
+function buildCarousel() {
+const track = document.getElementById("carouselTrack");
+track.innerHTML = "";
+photos.forEach((photo, i) => {
+const card = document.createElement("div");
+card.classList.add("photo-card");
+card.dataset.index = i;
+const img = document.createElement("img");
+img.src = photo.src;
+img.alt = photo.caption;
+img.loading = "lazy";
+const overlay = document.createElement("div");
+overlay.classList.add("card-overlay");
+const num = document.createElement("div");
+num.classList.add("card-num");
+num.textContent = (i + 1) + " / " + photos.length;
+card.appendChild(img);
+card.appendChild(overlay);
+card.appendChild(num);
+card.addEventListener("click", () => {
+if (i === current) {
+openLightbox(i);
+} else {
+current = i;
+updateCarousel();
+}
+});
+track.appendChild(card);
+});
+buildDots();
+updateCarousel();
+}
+
+function buildDots() {
+const row = document.getElementById("dotsRow");
+row.innerHTML = "";
+photos.forEach((_, i) => {
+const d = document.createElement("div");
+d.classList.add("dot");
+if (i === 0) d.classList.add("active");
+d.addEventListener("click", () => {
+current = i;
+updateCarousel();
+});
+row.appendChild(d);
+});
+}
+
+function updateCarousel() {
+const cards = document.querySelectorAll(".photo-card");
+const positions = ["hidden-left","left2","left1","center","right1","right2","hidden-right"];
+cards.forEach((card, i) => {
+card.className = "photo-card";
+const diff = i - current;
+if (diff === 0) card.classList.add("center");
+else if (diff === -1) card.classList.add("left1");
+else if (diff === -2) card.classList.add("left2");
+else if (diff === 1) card.classList.add("right1");
+else if (diff === 2) card.classList.add("right2");
+else if (diff < -2) card.classList.add("hidden-left");
+else card.classList.add("hidden-right");
+});
+const dots = document.querySelectorAll(".dot");
+dots.forEach((d, i) => d.classList.toggle("active", i === current));
+document.getElementById("counterBadge").textContent = (current + 1) + " / " + photos.length;
+}
+
+function nextSlide() {
+current = (current + 1) % photos.length;
+updateCarousel();
+}
+
+function prevSlide() {
+current = (current - 1 + photos.length) % photos.length;
+updateCarousel();
+}
+
+function openAlbum() {
+document.getElementById("splashScreen").classList.remove("active");
+document.getElementById("albumScreen").classList.add("active");
+buildCarousel();
+}
+
+function openLightbox(index) {
+const photo = photos[index];
+document.getElementById("lightboxImg").src = photo.src;
+document.getElementById("lightboxCaption").textContent = photo.caption;
+document.getElementById("lightboxScreen").classList.add("active");
+}
+
+function closeLightbox() {
+document.getElementById("lightboxScreen").classList.remove("active");
+}
+
+function toggleMusic() {
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+if (musicPlaying) {
+music.pause();
+btn.textContent = "🎵";
+} else {
+music.play().catch(() => {});
+btn.textContent = "🔇";
+}
+musicPlaying = !musicPlaying;
+}
+
+document.getElementById("carouselTrack").addEventListener("touchstart", e => {
+touchStartX = e.changedTouches[0].screenX;
+}, {passive:true});
+
+document.getElementById("carouselTrack").addEventListener("touchend", e => {
+touchEndX = e.changedTouches[0].screenX;
+const diff = touchStartX - touchEndX;
+if (Math.abs(diff) > 40) {
+diff > 0 ? nextSlide() : prevSlide();
+}
+}, {passive:true});
+
+document.getElementById("lightboxScreen").addEventListener("touchstart", e => {
+touchStartX = e.changedTouches[0].screenX;
+}, {passive:true});
+
+document.getElementById("lightboxScreen").addEventListener("touchend", e => {
+touchEndX = e.changedTouches[0].screenX;
+const diff = touchStartX - touchEndX;
+if (Math.abs(diff) > 40) {
+const newIndex = diff > 0
+? (current + 1) % photos.length
+: (current - 1 + photos.length) % photos.length;
+current = newIndex;
+updateCarousel();
+openLightbox(current);
+}
+}, {passive:true});
+
+createParticles();
+createFloatingDecor();
+</script>
+</body>
+</html>
